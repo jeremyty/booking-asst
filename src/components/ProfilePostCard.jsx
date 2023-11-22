@@ -1,25 +1,20 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { AuthContext } from "./AuthProvider";
-import { deletePost } from "../features/posts/postsSlice";
 import UpdatePostModal from "./UpdatePostModal";
+import DeleteBookingModal from "./DeleteBookingModal";
 
 export default function ProfilePostCard ({ post }) {
     const { content, id: postId } = post;
-    const dispatch = useDispatch();
-    const { currentUser } = useContext(AuthContext);
-    const userId = currentUser.uid;
-
     const [showUpdateModal, setShowUpdateModal] = useState(false);
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const handleShowDeleteModal = () => setShowDeleteModal(true);
     const handleShowUpdateModal = () => setShowUpdateModal(true);
-    const handleCloseUpdateModal = () => setShowUpdateModal(false);
 
+    const handleClose = () => {
+        setShowUpdateModal(false);
+        setShowDeleteModal(false);
+    }
 
-    const handleDelete = () => {
-        dispatch(deletePost({ userId, postId }));
-    };
 
     return (
         <Row
@@ -29,11 +24,9 @@ export default function ProfilePostCard ({ post }) {
             borderBottom: "1px solid #D3D3D3"
         }}
         >
-        
-
             <Col>
-            <strong>Haris</strong>
-            <span>@haris.samingan · Apr 16</span>
+            <strong>User</strong>
+            <span>@hahaha · Aug 16</span>
             <p>{content}</p>
             <div className="d-flex justify-content-between">
                 <Button variant="light">
@@ -54,14 +47,20 @@ export default function ProfilePostCard ({ post }) {
                     onClick={handleShowUpdateModal}
                     ></i>
                 </Button>
-                <Button variant="light" onClick={handleDelete}>
-                    <i className="bi bi-trash"></i>
+                <Button variant="light" >
+                    <i className="bi bi-trash"
+                    onClick={handleShowDeleteModal}></i>
                 </Button>
                 <UpdatePostModal
                 show={showUpdateModal}
-                handleClose={handleCloseUpdateModal}
+                handleClose={handleClose}
                 postId={postId}
                 originalPostContent={content}
+                />
+                <DeleteBookingModal
+                show={showDeleteModal}
+                handleClose={handleClose}
+                
                 />
             </div>
             </Col>

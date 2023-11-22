@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthProvider";
 import { Container, Row } from "react-bootstrap";
-import ProfilePostCard from "../components/ProfilePostCard";
+import ProfileBody from "../components/ProfileBody";
+import NavBar from "../components/Navbar";
 
 export default function Dashboard() {
     const auth = getAuth();
@@ -24,7 +25,8 @@ return (
     <>
     <Container>
       <Row>
-       <ProfilePostCard handleLogout={handleLogout} />
+        <NavBar handleLogout={handleLogout}  />
+       <ProfileBody />
       </Row>
     </Container>
   </>

@@ -1,22 +1,21 @@
 import { useContext, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { updatePost } from "../features/posts/postsSlice";
 import { AuthContext } from "./AuthProvider";
+import { savePost } from "../features/posts/postsSlice";
 
-export default function UpdatePostModal({ show, handleClose, postId, originalPostContent }) {
-  const [newPostContent, setNewPostContent] = useState(originalPostContent);
+export default function NewBookingModal({ show, handleClose }) {
+  const [postContent, setPostContent] = useState("");
   const dispatch = useDispatch();
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
 
-  const handleUpdate = () => {
-    dispatch(updatePost({ userId, newPostContent, postId }));
+  const handleSave = () => {
+    dispatch(savePost({ userId, postContent }));
     handleClose();
-    setNewPostContent(newPostContent);
+    setPostContent("");
   };
-
-
+  
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -25,10 +24,10 @@ export default function UpdatePostModal({ show, handleClose, postId, originalPos
           <Form>
             <Form.Group controlId="postContent">
               <Form.Control 
-                defaultValue={originalPostContent}
+                placeholder="May I help you?!"
                 as="textarea"
                 rows={3}
-                onChange={(e) => setNewPostContent(e.target.value)}
+                onChange={(e) => setPostContent(e.target.value)}
               />
               <br/>
             </Form.Group>
@@ -38,9 +37,9 @@ export default function UpdatePostModal({ show, handleClose, postId, originalPos
           <Button
             variant="dark"
             className="rounded-pill"
-            onClick={handleUpdate}
+            onClick={handleSave}
           >
-            Update
+            Create
           </Button>
         </Modal.Footer>
       </Modal>
