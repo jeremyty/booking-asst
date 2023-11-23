@@ -11,7 +11,6 @@ export default function LoginPage() {
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
     const [action, setAction] = useState("Log In");
-    const [confirm, setConfirm] = useState("");
 
 
       // signup
@@ -46,10 +45,11 @@ export default function LoginPage() {
   }, [currentUser, navigate]);
 
     return (
-        <Container className="d-flex justify-content-center vh-100 bg-light">
-            
+      
 
-    <Form onSubmit={action === "Log In" ? handleLogin : handleSignUp}>
+    <Container className="justify-content-center bg-light">
+      <h2 className="my-2">Event Booking</h2>
+      <Form onSubmit={action === "Log In" ? handleLogin : handleSignUp}>
         <h1 className="my-3 text-center">{action}</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>
@@ -78,20 +78,7 @@ export default function LoginPage() {
             }}
           />
         </Form.Group>
-        {action === "Log In" ? (
-          <Form.Group></Form.Group>
-        ) : (
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={confirm}
-              onChange={(e) => {
-                setConfirm(e.target.value);
-              }}
-            />
-          </Form.Group>
-        )}
+        
        
         <Button
           className={action === "Log In" ? "gray" : "submit"}

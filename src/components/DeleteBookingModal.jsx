@@ -1,21 +1,18 @@
 import { useDispatch } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
-import { deletePost } from "../features/posts/postsSlice";
+import { deleteBooking } from "../features/posts/postsSlice";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 
 export default function DeleteBookingModal({ show, handleClose, postId }) {
   const dispatch = useDispatch();
   const { currentUser } = useContext(AuthContext);
-
-
   const userId = currentUser.uid;
 
   
-
   const handleDelete = () => {
-     dispatch(deletePost({ userId, postId }));
-        handleClose();
+     dispatch(deleteBooking({ userId, postId }));
+      handleClose();
   }
   
 

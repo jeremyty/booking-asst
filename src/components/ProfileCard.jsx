@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
-import UpdatePostModal from "./UpdatePostModal";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import UpdateBookingModal from "./UpdateBookingModal";
 import DeleteBookingModal from "./DeleteBookingModal";
 
-export default function ProfilePostCard ({ post }) {
-    const { content, id: postId } = post;
+export default function ProfileCard ({ post }) {
+    const { date, time, phone, description, pack, duration, id: postId } = post;
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const handleShowDeleteModal = () => setShowDeleteModal(true);
@@ -25,44 +25,46 @@ export default function ProfilePostCard ({ post }) {
         }}
         >
             <Col>
-            <strong>User</strong>
-            <span>@hahaha · Aug 16</span>
-            <p>{content}</p>
+            
+            <p><strong> Description : {description}</strong></p>
+            <span>Date : {date}</span><br/>
+            <span>Phone No : {phone} </span><br />
+           <span>Time : {time} </span><br/>
+           <span>Duration : {duration} </span> <br/>
+           <span>{pack} packs </span>
+           
             <div className="d-flex justify-content-between">
                 <Button variant="light">
-                    <i className="bi bi-chat"></i>
-                </Button>
-                <Button variant="light">
-                    <i className="bi bi-repeat"></i>
-                </Button>
-                <Button variant="light">
-                    <i className="bi bi-graph-up"></i>
-                </Button>
-                <Button variant="light">
-                    <i className="bi bi-upload"></i>
-                </Button>
-                <Button variant="light"> 
-                    <i
+                <i
                     className="bi bi-pencil-square"
                     onClick={handleShowUpdateModal}
                     ></i>
                 </Button>
-                <Button variant="light" >
-                    <i className="bi bi-trash"
+                <Button variant="light me-auto">
+                <i className="bi bi-trash"
                     onClick={handleShowDeleteModal}></i>
                 </Button>
-                <UpdatePostModal
+                <UpdateBookingModal
                 show={showUpdateModal}
                 handleClose={handleClose}
                 postId={postId}
-                originalPostContent={content}
+                originalBookingDescription={description}
+                originalBookingDate={date}
+                originalBookingTime={time}
+                originalBookingPhone={phone}
+                originalBookingPack={pack}
+                originalBookingDuration={duration}
+
                 />
                 <DeleteBookingModal
                 show={showDeleteModal}
                 handleClose={handleClose}
-                
+                postId={postId}
                 />
             </div>
+            <Form>
+            
+            </Form>
             </Col>
         </Row>
     )

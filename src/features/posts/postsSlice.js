@@ -10,15 +10,12 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
-// Async thunk to delete a post
-export const deletePost = createAsyncThunk(
-    "posts/deletePost",
+export const deleteBooking = createAsyncThunk(
+    "posts/deleteBooking",
     async ({ userId, postId }) => {
         try {
-            // ref to post
-            const postRef = doc(db, `users/${userId}/posts/${postId}`);
-            // delete post
-            await deleteDoc(postRef);
+            const bookingRef = doc(db, `users/${userId}/posts/${postId}`);
+            await deleteDoc(bookingRef);
             return postId;
         } catch (error) {
             console.error(error)
@@ -26,77 +23,23 @@ export const deletePost = createAsyncThunk(
         }
     }
 )
-//Async thunk is to update a post
-export const updatePost = createAsyncThunk(
-  "post/updatePost",
-  async ({ userId, postId, newPostContent }) => {
-    try {
-      // Upload the new file to the storage if it exists and get its URL
-      
-
-      // Reference to an existing post
-      const postRef = doc(db, `users/${userId}/posts/${postId}`);
-      // Get the current post data
-      const postSnap = await getDoc(postRef);
-
-      if (postSnap.exists()) {
-        const postData = postSnap.data();
-        // Update the post content and the image URL
-        const updatedData = {
-          ...postData,
-          content: newPostContent || postData.content,
-        };
-        // Update the existing document in Firestore
-        await updateDoc(postRef, updatedData);
-
-        // Return the post with updated data
-        const updatedPost = { id: postId, ...updatedData };
-        return updatedPost;
-      } else {
-        throw new Error("Post does not exist");
-      }
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-);
-
-// Async thunk for fetching a user's posts
-export const fetchPostsByUser = createAsyncThunk(
-  "posts/fetchPostsByUser", // name
-  async (userId) => {
-    try {
-      // get from firestore
-      const postsRef = collection(db, `users/${userId}/posts`); //db = database from firestore
-
-      const querySnapshot = await getDocs(postsRef);
-      const docs = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log(docs);
-      return docs; //output 'docs' to action.payload
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-);
-
-// Async thunk to create a post
-export const savePost = createAsyncThunk(
+export const saveBooking = createAsyncThunk(
   "posts/savePost",
-  async ({ userId, postContent }) => {
+  async ({ userId, bookingDate, bookingDescription, bookingPhone, bookingTime, bookingDuration, bookingPack }) => {
     try {
-
-      
-
       const postsRef = collection(db, `users/${userId}/posts`);
-      // The doc() function creates a reference (newPostRef) for a new document within the postsRef collection
       const newPostRef = doc(postsRef);
 
-      await setDoc(newPostRef, { content: postContent });
+      await setDoc(newPostRef, {
+        date: bookingDate,
+        description: bookingDescription,
+        phone: bookingPhone,
+        time: bookingTime,
+        pack: bookingPack,
+        duration: bookingDuration,
+
+
+      });
       const newPost = await getDoc(newPostRef);
 
       const post = {
@@ -112,36 +55,88 @@ export const savePost = createAsyncThunk(
   }
 );
 
+export const updateBooking = createAsyncThunk(
+  "posts/updatePost",
+  async ({ userId, postId, newBookingDescription, newBookingDate, newBookingTime, newBookingPhone, newBookingPack, newBookingDuration }) => {
+    try {
+      const bookingRef = doc(db, `users/${userId}/posts/${postId}`);
+      const bookingSnap = await getDoc(bookingRef);
+
+      if (bookingSnap.exists()) {
+        const bookingData = bookingSnap.data();
+        const updatedData = {
+          ...bookingData,
+          description: newBookingDescription || bookingData.description,
+          date: newBookingDate || bookingData.date,
+          time: newBookingTime || bookingData.time,
+          phone: newBookingPhone || bookingData.phone,
+          pack: newBookingPack|| bookingData.pack,
+          duration: newBookingDuration || bookingData.duration,
 
 
-// Slice
+        };
+        await updateDoc(bookingRef, updatedData);
+
+        const updatedBooking = { id: postId, ...updatedData };
+        return updatedBooking;
+      } else {
+        throw new Error("Post does not exist");
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+export const fetchBookingsByUser = createAsyncThunk(
+  "posts/fetchBookingsByUser", 
+  async (userId) => {
+    try {
+      const postsRef = collection(db, `users/${userId}/posts`); 
+      const querySnapshot = await getDocs(postsRef);
+      const docs = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log(docs);
+      return docs; 
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+
+
+
 const postsSlice = createSlice({
   name: "posts",
   initialState: { posts: [], loading: true },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPostsByUser.fulfilled, (state, action) => {
+      .addCase(fetchBookingsByUser.fulfilled, (state, action) => {
         state.posts = action.payload;
         state.loading = false;
       })
-      .addCase(savePost.fulfilled, (state, action) => {
+      .addCase(saveBooking.fulfilled, (state, action) => {
         state.posts = [action.payload, ...state.posts];
       })
-      .addCase(updatePost.fulfilled, (state, action) => {
-        const updatedPost = action.payload;
-        // Find and update the post in the state
+      .addCase(updateBooking.fulfilled, (state, action) => {
+        const updatedBooking = action.payload;
         const postIndex = state.posts.findIndex(
-          (post) => post.id === updatedPost.id
+          (post) => post.id === updatedBooking.id
         );
 
         if (postIndex !== -1) {
-          state.posts[postIndex] = updatedPost;
+          state.posts[postIndex] = updatedBooking;
         }
       })
-      .addCase (deletePost.fulfilled, (state, action) => {
-        const deletePostId = action.payload;
-        state.posts = state.posts.filter((post) => post.id !== deletePostId);
+      .addCase (deleteBooking.fulfilled, (state, action) => {
+        const deleteBookingId = action.payload;
+        state.posts = state.posts.filter((post) => post.id !== deleteBookingId);
       });
   },
 });
