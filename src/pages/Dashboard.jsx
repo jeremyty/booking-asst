@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthProvider";
 import { Container, Row } from "react-bootstrap";
 import ProfileBody from "../components/ProfileBody";
-import NavBar from "../components/Navbar";
+import NavBar from "../components/NavBarr";
 
 export default function Dashboard() {
     const auth = getAuth();

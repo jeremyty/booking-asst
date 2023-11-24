@@ -31,7 +31,7 @@ export default function ProfileCard ({ post }) {
             <span>Phone No : {phone} </span><br />
            <span>Time : {time} </span><br/>
            <span>Duration : {duration} </span> <br/>
-           <span>{pack} packs </span>
+           <span>{pack} people </span>
            
             <div className="d-flex justify-content-between">
                 <Button variant="light">

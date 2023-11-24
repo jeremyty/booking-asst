@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
+//deletebooking
 export const deleteBooking = createAsyncThunk(
     "posts/deleteBooking",
     async ({ userId, postId }) => {
@@ -23,8 +24,10 @@ export const deleteBooking = createAsyncThunk(
         }
     }
 )
+
+//savebooking
 export const saveBooking = createAsyncThunk(
-  "posts/savePost",
+  "posts/saveBooking",
   async ({ userId, bookingDate, bookingDescription, bookingPhone, bookingTime, bookingDuration, bookingPack }) => {
     try {
       const postsRef = collection(db, `users/${userId}/posts`);
@@ -55,8 +58,9 @@ export const saveBooking = createAsyncThunk(
   }
 );
 
+//updatebooking
 export const updateBooking = createAsyncThunk(
-  "posts/updatePost",
+  "posts/updateBooking",
   async ({ userId, postId, newBookingDescription, newBookingDate, newBookingTime, newBookingPhone, newBookingPack, newBookingDuration }) => {
     try {
       const bookingRef = doc(db, `users/${userId}/posts/${postId}`);
@@ -89,6 +93,7 @@ export const updateBooking = createAsyncThunk(
   }
 );
 
+// fetchbookings
 export const fetchBookingsByUser = createAsyncThunk(
   "posts/fetchBookingsByUser", 
   async (userId) => {
@@ -108,9 +113,7 @@ export const fetchBookingsByUser = createAsyncThunk(
   }
 );
 
-
-
-
+// Slice
 const postsSlice = createSlice({
   name: "posts",
   initialState: { posts: [], loading: true },

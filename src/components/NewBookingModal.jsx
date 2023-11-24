@@ -50,10 +50,10 @@ export default function NewBookingModal({ show, handleClose }) {
             </div>
             <div className="col-md-6">
             <Form.Group controlId="postPack">
-            <label name="reservation_phone">Packs</label>
+            <label name="reservation_phone">Number of attendees</label>
 
               <Form.Control 
-                placeholder="How many packs"
+                placeholder="How many people"
                 as="textarea"
                 rows={2}
                 onChange={(e) => setBookingPack(e.target.value)}
@@ -68,7 +68,7 @@ export default function NewBookingModal({ show, handleClose }) {
               <Form.Control 
                 placeholder="Phone Number"
                 as="textarea"
-                rows={3}
+                rows={2}
                 onChange={(e) => setBookingPhone(e.target.value)}
               />
               <br/>
@@ -81,7 +81,7 @@ export default function NewBookingModal({ show, handleClose }) {
               <Form.Control 
                 placeholder="Description?!"
                 as="textarea"
-                rows={3}
+                rows={2}
                 onChange={(e) => setBookingDescription(e.target.value)}
               />
               <br/>
@@ -114,18 +114,18 @@ export default function NewBookingModal({ show, handleClose }) {
             >
               <option value="10:00am">10:00am</option>
               <option value="10:45am">10:45am</option>
-                      <option value="11:30am">11:30am</option>
-                      <option value="12:15pm">12:15pm</option>
-                      <option value="1:15pm">1:15pm</option>
-                      <option value="2:15pm">2:15pm</option>
-                      <option value="3:15pm">3:15pm</option>
-                      <option value="4:15pm">4:15pm</option>
-                      <option value="5:15pm">5:15pm</option>
-                      <option value="6:15pm">6:15pm</option>
-                      <option value="7:15pm">7:15pm</option>
-                      <option value="8:00pm">8:00pm</option>
-                      <option value="8:45pm">8:45pm</option>
-                      <option value="9:30pm">9:30pm</option>
+              <option value="11:30am">11:30am</option>
+              <option value="12:15pm">12:15pm</option>
+              <option value="1:15pm">1:15pm</option>
+              <option value="2:15pm">2:15pm</option>
+              <option value="3:15pm">3:15pm</option>
+              <option value="4:15pm">4:15pm</option>
+              <option value="5:15pm">5:15pm</option>
+              <option value="6:15pm">6:15pm</option>
+              <option value="7:15pm">7:15pm</option>
+              <option value="8:00pm">8:00pm</option>
+              <option value="8:45pm">8:45pm</option>
+              <option value="9:30pm">9:30pm</option>
             </FormSelect>
         </div>
 

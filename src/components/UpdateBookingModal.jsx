@@ -108,9 +108,9 @@ export default function UpdateBookingModal({ show, handleClose, postId, original
               </div>
               <div className="col-md-6">
                 <Form.Group controlId="bookingPack">
-                  <label name="reservation_phone">Packs</label>
+                  <label name="reservation_phone">Number of attendees</label>
                   <Form.Control 
-                    placeholder="How many packs"
+                    placeholder="How many people"
                     as="textarea"
                     defaultValue={originalBookingPack}
                     rows={2}
