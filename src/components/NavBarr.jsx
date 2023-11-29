@@ -15,6 +15,8 @@ export default function NavBar({ handleLogout }) {
         <Navbar.Brand href="dashboard">
           <Image src={logo} alt="Uni Logo" roundedCircle style={{ width: 80 }} />
         </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link onClick={handleShow}>Book Now</Nav.Link>
           <NewBookingModal show={show} handleClose={handleClose} />
@@ -22,13 +24,12 @@ export default function NavBar({ handleLogout }) {
         <Nav variant="underline" className="me-auto align-center" style={{fontSize: 30}}>
           <Nav.Link>My Booking</Nav.Link>
         </Nav>
-        
-       
         <Nav>
           <Nav.Link onClick={handleLogout}>
             <i className="bi bi-door-closed" /> Logout
           </Nav.Link>
         </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
 
